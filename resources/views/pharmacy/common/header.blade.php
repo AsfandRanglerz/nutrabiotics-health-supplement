@@ -48,9 +48,6 @@
                         </a>
                     @endforeach
                 </div>
-                <div class="dropdown-footer text-center">
-                    <a href="#">View All <i class="fas fa-chevron-right"></i></a>
-                </div>
             </div>
         </li>
         <li class="dropdown"><a href="#" data-toggle="dropdown"

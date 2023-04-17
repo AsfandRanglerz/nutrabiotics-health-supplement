@@ -5451,7 +5451,7 @@ a.dropdown-item.active {
 }
 
 .dropdown-list .dropdown-item .dropdown-item-avatar img {
-    width: 100%
+    width: 65%;
 }
 
 .dropdown-list .dropdown-item .dropdown-item-avatar .is-online {
@@ -5581,6 +5581,7 @@ a.dropdown-item.active {
 
 .dropdown-list .dropdown-list-message .dropdown-item {
     display: flex;
+    align-items: center;
     padding-top: 4px;
     border-bottom: 1px solid #eee;
     padding-bottom: 0px

@@ -126,7 +126,7 @@ a:not(.nav-link, .dropdown-item, .btn) {
     width: 40px!important;
     height: 40px!important;
     border-radius: 50px!important;
-    object-fit: cover;
+    object-fit: contain;
     object-position: top;
     box-shadow: 4px 3px 6px 0 rgb(0 0 0 / 20%)!important;
 }
