@@ -23,11 +23,11 @@ class OrderController extends Controller
     public function status($id)
     {
         $order = Order::with('pharmacy', 'orderItems.product')->find($id);
-        $order->update(['status' => $order->status == 0 ? '1' : '0']);
         $orderItems = $order->orderItems;
-
         $body = array(
-            'id' => $id,
+            'order_id' => $id,
+            'user_id'=>$order->user_id,
+            'pharmacy_id'=>$order->pharmacy_id,
             'code' => $order->code,
             'pharmacy_name' => $order->pharmacy->name,
         );
@@ -35,8 +35,7 @@ class OrderController extends Controller
             $body['product_id'] = $orderItem->product->id;
             $body['product_name'] = $orderItem->product->product_name;
         }
-
-        $user = User::pluck('fcm_token')->toArray();
+        $user = User::where('id', $order->user_id)->pluck('fcm_token')->toArray();
 
         $data = [
             'to' => $user,
@@ -66,25 +65,6 @@ class OrderController extends Controller
         curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
         $response = curl_exec($ch);
         // dd($response);
-        if ($order->status == '1')
-        {
-            $orderItems = OrderItem::where('order_id', $order->id)->first();
-            $balance = ($orderItems->commission + $order->pharmacy->balance);
-            $pharmacyId = $order->pharmacy->id;
-            $pharmacy = Pharmacy::find($pharmacyId);
-            $pharmacy->balance = $balance;
-            $pharmacy->save();
-
-
-            // $orderItems->commission
-        }
-        $notification = new Notification();
-        $notification->user_id = $order->user_id;
-        $notification->pharmacy_id = $order->pharmacy_id;
-        $notification->title = "Order Accepted";
-        $notification->body = $orderItem->product->product_name . '-' . $orderItem->product->price . '-' . $body['code'];
-        $notification->save();
-
         return redirect()->back()->with(['status' => true, 'message' => 'Updated Successfully']);
     }
     public function orderDetail(Request $request)

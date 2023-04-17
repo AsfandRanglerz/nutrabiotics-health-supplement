@@ -118,70 +118,70 @@
                 </div>
             </div>
         </section>
-    </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Discount</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" action="{{ route('update-discount') }}">
+                            @csrf
+                            <div class="form-group">
+                                <label for="phone">Product Price</label>
+                                <input type="number" name="price" id="response_price" class="form-control" readonly>
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Discount</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                                <label for="discount-percentage" class="col-form-label">Percentage</label>
+                                @if ($product->d_per)
+                                    <input type="number" name="d_per" id="discount_per" class="form-control">
+                                @else
+                                    <input type="number" name="d_per" id="discount_per" class="form-control">
+                                @endif
+                                <label for="price">Discount Price</label>
+                                @if ($product->d_price)
+                                    <input type="number" name="d_price" id="discount" class="form-control"
+                                        value="{{ $product->d_price }}" readonly>
+                                @else
+                                    <input type="number" name="d_price" id="discount" class="form-control" readonly>
+                                @endIf
+                                <label for="price">Start Date</label>
+                                @if ($product->start_date)
+                                    <input type="date" name="start_date" id="start_date" class="form-control"
+                                        value="{{ $product->start_date }}" required>
+                                @else
+                                    <input type="date" name="start_date" id="start_date" class="form-control" required>
+                                    @error('start_date')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                @endIf
+                                <label for="price">Expiry Date</label>
+                                @if ($product->expiry_date)
+                                    <input type="date" name="expiry_date" id="expiry_date" class="form-control"
+                                        value="{{ $product->expiry_date }}" required>
+                                @else
+                                    <input type="date" name="expiry_date" id="expiry_date" class="form-control" required>
+                                    @error('expiry_date')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                @endIf
+
+                                <input type="hidden" name="id" id="id">
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                        </form>
+                    </div>
+
                 </div>
-                <div class="modal-body">
-                    <form method="POST" action="{{ route('update-discount') }}">
-                        @csrf
-                        <div class="form-group">
-                            <label for="phone">Product Price</label>
-                            <input type="number" name="price" id="response_price" class="form-control" readonly>
-
-                            <label for="discount-percentage" class="col-form-label">Percentage</label>
-                            @if ($product->d_per)
-                                <input type="number" name="d_per" id="discount_per" class="form-control">
-                            @else
-                                <input type="number" name="d_per" id="discount_per" class="form-control">
-                            @endif
-                            <label for="price">Discount Price</label>
-                            @if ($product->d_price)
-                                <input type="number" name="d_price" id="discount" class="form-control"
-                                    value="{{ $product->d_price }}" readonly>
-                            @else
-                                <input type="number" name="d_price" id="discount" class="form-control" readonly>
-                            @endIf
-                            <label for="price">Start Date</label>
-                            @if ($product->start_date)
-                                <input type="date" name="start_date" id="start_date" class="form-control"
-                                    value="{{ $product->start_date }}" required>
-                            @else
-                                <input type="date" name="start_date" id="start_date" class="form-control" required>
-                                @error('start_date')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            @endIf
-                            <label for="price">Expiry Date</label>
-                            @if ($product->expiry_date)
-                                <input type="date" name="expiry_date" id="expiry_date" class="form-control"
-                                    value="{{ $product->expiry_date }}" required>
-                            @else
-                                <input type="date" name="expiry_date" id="expiry_date" class="form-control" required>
-                                @error('expiry_date')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            @endIf
-
-                            <input type="hidden" name="id" id="id">
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-                    </form>
-                </div>
-
             </div>
         </div>
     </div>
+
 @endsection
 
 @section('js')

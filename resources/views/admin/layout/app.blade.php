@@ -29,6 +29,7 @@
             @include('admin.common.footer')
         </div>
     </div>
+
     <!-- General JS Scripts -->
     <script src="{{ asset('public/admin/assets/js/app.min.js') }}"></script>
     <!-- JS Libraies -->

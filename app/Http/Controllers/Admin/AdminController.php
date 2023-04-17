@@ -8,6 +8,7 @@ use App\Models\Admin;
 use App\Models\Category;
 use App\Models\Commission;
 use App\Models\OrderItem;
+use App\Models\Order;
 use App\Models\Pharmacy;
 use App\Models\Product;
 use App\Models\User;
@@ -29,9 +30,10 @@ class AdminController extends Controller
         $category = Category::select('id')->get();
         $product = Product::select('id')->get();
         $orderitem = OrderItem::select('id')->get();
+        $orderPending = Order::where('status', '0')->select('id')->get();
         $withdrawal = WithDrawalRequest::where('status', '0')->get();
         $commission = Commission::select('percentage')->first();
-        return view('admin.index', compact('pharmacy', 'user', 'category', 'product', 'orderitem', 'withdrawal', 'commission'));
+        return view('admin.index', compact('pharmacy', 'user', 'category', 'product', 'orderitem','orderPending', 'withdrawal', 'commission'));
     }
     public function getProfile()
     {

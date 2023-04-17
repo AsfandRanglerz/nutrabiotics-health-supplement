@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Commission;
+use App\Models\Notification;
 use App\Models\Order;
 use App\Models\OrderItem;
-use App\Models\Product;
 use App\Models\PharmacyProduct;
-use App\Models\Notification;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -33,7 +33,7 @@ class OrderController extends Controller
         $orderItem->price = $product->price;
         $orderItem->d_per = $product->d_per;
         $orderItem->sub_total = $orderItem->price * $orderItem->quantity;
-        $orderItem->total = ($orderItem->price - ($orderItem->d_per * $orderItem->price/100)) * $orderItem->quantity;
+        $orderItem->total = ($orderItem->price - ($orderItem->d_per * $orderItem->price / 100)) * $orderItem->quantity;
         $orderItem->commission = $orderItem->total * $order->percentage / 100;
 
         $pharmacyProduct = PharmacyProduct::where('pharmacy_id', $order->pharmacy_id)
@@ -59,13 +59,13 @@ class OrderController extends Controller
                 $notification->url = 'pharmacy/order';
                 $notification->save();
 
-                $data = array('order' => $order, 'item' => $orderItem,'stock'=>$stock);
+                $data = array('order' => $order, 'item' => $orderItem, 'stock' => $stock);
                 return $this->sendSuccess('Order Confirmed', $data);
             } else {
                 return $this->sendError('Insufficient stock');
             }
         } else {
-            $data = array('order' => $order, 'item' => $orderItem,'stock'=>$stock);
+            $data = array('order' => $order, 'item' => $orderItem, 'stock' => $stock);
             return $this->sendSuccess('Order Confirmed', $data);
         }
     }
@@ -73,11 +73,33 @@ class OrderController extends Controller
     public function getCoupon()
     {
         $authId = Auth::id();
-        $data = Order::where('user_id',$authId)->get();
-        $coupon = OrderItem::with('product')->with('order.pharmacy')->whereIn('order_id', $data->pluck('id'))->orderBy('id','DESC')->get();
+        $data = Order::where('user_id', $authId)->get();
+        $coupon = OrderItem::with('product')->with('order.pharmacy')->whereIn('order_id', $data->pluck('id'))->orderBy('id', 'DESC')->get();
         return $this->sendSuccess('Coupon data', $coupon);
     }
 
+    public function OrderAccept(Request $request)
+    {
+        $authId = Auth::id();
+        $order = Order::where('user_id', $authId)->where('id', $request->order_id)->first();
+        $order->update(['status' => $order->status == 0 ? '1' : '0']);
 
+        if ($order->status == 1) {
+            $totalCommission = $order->orderItems->sum('commission');
+            $pharmacy = $order->pharmacy;
+            $pharmacy->balance += $totalCommission;
+            $pharmacy->save();
+        }
+
+        $orderItem = $order->orderItems->first();
+        $notification = new Notification();
+        $notification->user_id = $order->user_id;
+        $notification->pharmacy_id = $order->pharmacy_id;
+        $notification->title = "Order Accepted";
+        $notification->body = $orderItem->product->product_name . '-' . $orderItem->product->price;
+        $notification->save();
+
+        return response()->json(['message' => 'Order accepted successfully']);
+    }
 
 }
