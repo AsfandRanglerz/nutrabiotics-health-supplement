@@ -39,6 +39,10 @@
                 <a href="{{ route('order.index') }}" id="orderNotification" class="nav-link"><i class="fa-brands fa-first-order"></i>
                     <span>Orders</span><span class="badge position-absolute w-auto rounded" style="right: 16px;background: rgb(247, 83, 18); color:#fff">{{$order->count()}}</span></a>
             </li>
+            <li class="dropdown {{ request()->is('admin/report/index*') ? 'active' : '' }}">
+                <a href="{{ route('report.index') }}" class="nav-link"><i
+                        class="fa fa-percent"></i><span>Report</span></a>
+            </li>
             <li class="dropdown {{ request()->is('admin/commission*') ? 'active' : '' }}">
                 <a href="{{ route('commission.index') }}" class="nav-link"><i
                         class="fa fa-percent"></i><span>Commission</span></a>

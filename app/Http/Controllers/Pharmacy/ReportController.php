@@ -34,7 +34,7 @@ class ReportController extends Controller
         $monthYear = $datetime->format('m-Y');
         $datepickerDate = $request->selected_date;
         if ($monthYear == $datepickerDate) {
-            $total += $order->price;
+            $total += $order->total;
             $total_Commission += $order->commission;
             $filteredOrders[] = $order->order;
         }

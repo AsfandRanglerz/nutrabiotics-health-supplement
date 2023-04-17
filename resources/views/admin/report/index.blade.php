@@ -14,7 +14,7 @@
                             </div>
 
                             <div class="card-body table-striped table-bordered table-responsive">
-                                <form action={{ route('admin.report.check') }} method="POST"
+                                <form action={{ route('report.check') }} method="POST"
                                     enctype="multipart/form-data">
                                     @csrf
                                     <div class="row mx-0 px-4">
