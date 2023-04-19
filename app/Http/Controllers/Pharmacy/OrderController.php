@@ -36,7 +36,7 @@ class OrderController extends Controller
             $body['product_name'] = $orderItem->product->product_name;
         }
         $user = User::where('id', $order->user_id)->pluck('fcm_token')->toArray();
-
+        
         $data = [
             'to' => $user,
             'notification' => [

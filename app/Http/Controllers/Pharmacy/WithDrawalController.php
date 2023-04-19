@@ -79,7 +79,7 @@ class WithDrawalController extends Controller
     $data->type = 'admin';
     $data->body = $pharmacy->name . ' - ' . $withdrawal->payment;
     $data->file = $pharmacy->image;
-    $data->url = 'admin/withDrawal-Request-index';
+    $data->url = 'admin/withDrawalRequest-index';
     $data->save();
 
     return redirect()->route('pharmacy.withDrawal.index')->with('success' ,'Withdrawal request sent successfully.');

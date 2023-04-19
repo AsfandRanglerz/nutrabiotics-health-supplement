@@ -24,6 +24,8 @@ Route::group(['namespace' => 'Api'], function () {
     Route::post('confirm-token', 'AuthController@confirmToken');
     Route::post('reset-password', 'AuthController@resetPassword');
     Route::get('deal-notification', 'AuthController@dealNotification');
+    Route::get('all-notification', 'AuthController@allNotification');
+
     // Category
     Route::get('category','ProductController@getCategory');
     Route::get('subcategory/{category_id}','ProductController@getSubCategory');

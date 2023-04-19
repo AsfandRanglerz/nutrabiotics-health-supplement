@@ -1,14 +1,8 @@
 @php
     $AuthId = Auth::guard('pharmacy')->id();
     $notifications = \App\Models\Notification::where('type', 'pharmacy')
-    ->where(function ($query) use ($AuthId) {
-        $query->where('pharmacy_id', $AuthId)
-              ->orWhereNull('pharmacy_id');
-    })
-    ->orderByDesc('seen')
-    ->orderByDesc('id')
-    ->get();// output the SQL query
-    // dd($notifications);
+    ->orderBy('created_at', 'desc')
+        ->get();
 @endphp
 <div class="navbar-bg"></div>
 <nav class="navbar navbar-expand-lg main-navbar sticky">
