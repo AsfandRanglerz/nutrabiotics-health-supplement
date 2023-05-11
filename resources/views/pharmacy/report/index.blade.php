@@ -18,12 +18,22 @@
                                     enctype="multipart/form-data">
                                     @csrf
                                     <div class="row mx-0 px-4">
-                                        <div class="col-sm-4 pl-sm-0 pr-sm-3">
+                                        <div class="col-sm-6 pl-sm-0 pr-sm-3">
                                             <div class="form-group mb-2">
-                                                <label for="datepicker">Select a date:</label>
-                                                <input type="text" class="form-control" placeholder="Select Date" name="selected_date"
-                                                    id="datepicker" />
-                                                @error('selected_date')
+                                                <label for="datepicker">Start Date:</label>
+                                                <input type="date" class="form-control" name="start_date"
+                                                     required>
+                                                @error('start_date')
+                                                    <div class="text-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 pl-sm-0 pr-sm-3">
+                                            <div class="form-group mb-2">
+                                                <label for="datepicker">End Date:</label>
+                                                <input type="date" class="form-control" name="end_date"
+                                                     required>
+                                                @error('end_date')
                                                     <div class="text-danger">{{ $message }}</div>
                                                 @enderror
                                             </div>

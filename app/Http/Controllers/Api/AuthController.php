@@ -197,12 +197,20 @@ class AuthController extends Controller
 
     public function dealNotification()
     {
-      $notification = Notification::where('type','user')->where('title','Deal')->get();
+      $notification = Notification::where('type','user')->where('title','Deal')->orderBy('created_at','DESC')->get();
       return $this->sendSuccess('Deal Notification', compact('notification'));
     }
 
     public function allNotification(){
-        $notification = Notification::where('type','user')->get();
+        $notification = Notification::where('type','user')->latest()->get();
       return $this->sendSuccess('All Notification', compact('notification'));
+    }
+
+    public function seenNotification($id){
+        $notification = Notification::where('id',$id)->first();
+        $notification->seen = '1';
+        $notification->save();
+        return $this->sendSuccess('Seen  Notification');
+
     }
 }

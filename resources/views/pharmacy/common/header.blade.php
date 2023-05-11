@@ -1,8 +1,9 @@
 @php
     $AuthId = Auth::guard('pharmacy')->id();
     $notifications = \App\Models\Notification::where('type', 'pharmacy')
-    ->orderBy('created_at', 'desc')
-        ->get();
+    // ->where('seen', '0')
+    ->orderBy('created_at', 'DESC')
+    ->get();
 @endphp
 <div class="navbar-bg"></div>
 <nav class="navbar navbar-expand-lg main-navbar sticky">

@@ -185,16 +185,35 @@ class ProductController extends Controller
         $data->d_price = $request->input('d_price');
         $data->start_date = $request->input('start_date');
         $data->expiry_date = $request->input('expiry_date');
-        // dd($data);
         $data->update();
-        // $photo = $data->photos->first()->photo;
+
+        $selectedData = [
+            'product_id' => $data->id,
+            'product_name' => $data->product_name,
+            'price' => $data->price,
+            'd_per' => $data->d_per,
+            'd_price' => $data->d_price,
+            'created_at' => $data->created_at,
+
+            // 'photos' => $data->photos->toArray(),
+        ];
+        // return $selectedData;
+
+        $notification = new Notification();
+        $notification->title = "Deal";
+        $notification->body = json_encode($selectedData);
+        $notification->save();
+
+
         $body = array(
+            'notification_id' => $notification->id,
             'title'=>'Deal',
             'product_id' => $request->id,
             'product_name' => $data->product_name,
             'price' => $request->price,
             'd_per' => $request->d_per,
             'd_price' => $request->d_price,
+            'created_at' => $notification->created_at,
             // 'photo' => $data->photos
             // 'type'     => 'accept',
         );
@@ -207,12 +226,12 @@ class ProductController extends Controller
         foreach ($users as $user) {
             $tokens[] = (string) $user;
         }
-
+        // dd($tokens);
         $data = [
             'registration_ids' => $tokens,
             'notification' => [
-                'title' => "Request Accepted",
-                'body' => "Request Accepted",
+                'title' => "Deal",
+                'body' => $request->d_per."% ". "OFF on " .$data->product_name,
             ],
             'data' => [
                 'RequestData' => $body,
@@ -237,14 +256,14 @@ class ProductController extends Controller
         $response = curl_exec($ch);
         // dd($response);
         // Store notification in the database
-        $notification = new Notification();
-        $notification->title = "Deal";
-        $notification->body = json_encode($body);
-        // $notification->body = $body['product_id'] . '*3#(' . $body['product_name'] . '*3#(' . $body['price'] . '*3#(' . $body['d_per'] . '*3#(' . $body['d_price'];
-        // $notification->file = $body['photo'];
-        $notification->save();
-        $body['notification_id'] = $notification->id;
-
+        // $notification = new Notification();
+        // $notification->title = "Deal";
+        // $notification->body = json_encode($body);
+        // // $notification->body = $body['product_id'] . '*3#(' . $body['product_name'] . '*3#(' . $body['price'] . '*3#(' . $body['d_per'] . '*3#(' . $body['d_price'];
+        // // $notification->file = $body['photo'];
+        // $notification->save();
+        // $body['notification_id'] = $notification->id;
+        // dd($body);
         return redirect()->route('product.index')->with(['status' => true, 'message' => 'Created Successfully']);
     }
     public function convertToDate($value = 0, $unit = 'days')

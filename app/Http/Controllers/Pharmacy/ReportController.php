@@ -31,9 +31,10 @@ class ReportController extends Controller
     foreach ($orderItems as $order) {
         $createdAt = $order->created_at;
         $datetime = Carbon::createFromFormat('Y-m-d H:i:s', $createdAt);
-        $monthYear = $datetime->format('m-Y');
-        $datepickerDate = $request->selected_date;
-        if ($monthYear == $datepickerDate) {
+        $monthYear = $datetime->format('Y-m-d');
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        if ($start_date <= $monthYear && $monthYear <= $end_date) {
             $total += $order->total;
             $total_Commission += $order->commission;
             $filteredOrders[] = $order->order;

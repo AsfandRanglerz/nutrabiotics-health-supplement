@@ -54,12 +54,22 @@
                                                 <td>
                                                     @if ($data->order->status == 1)
                                                         <div class="badge badge-success badge-shadow">Approved</div>
-                                                    @else
-                                                        <div class="badge badge-danger badge-shadow">Pending</div>
+                                                    @elseif($data->order->status == 0)
+                                                        <div class="badge badge-warning badge-shadow">Pending</div>
+                                                    @elseif($data->order->status == 2)
+                                                        <div class="badge badge-danger badge-shadow">Inactive</div>
                                                     @endif
                                                 </td>
                                                 <td
                                                     style="display: flex;align-items: center;justify-content: center;column-gap: 8px">
+
+                                                    @if ($data->order->status == 0)
+                                                        <a onclick="sendDescription('{{ $data->order->id }}', '{{ $data->description }}')"
+                                                            type="button" data-toggle="modal" data-target="#exampleModal">
+                                                            <i class="fas fa-edit"></i>
+                                                        </a>
+                                                    @endif
+
                                                     <a onClick="viewDetail('{{ $data->order->id }}')" class="btn modal-btn"
                                                         style="color: var(--theme-color)!important;font-weight: bold">
                                                         <i class="fa fa-eye" style="font-size: 18px;"></i>
@@ -82,12 +92,12 @@
                                                                 </svg>
                                                             </button>
                                                         </form>
-                                                    @else
-                                                            <form
+                                                    @elseif ($data->order->status == 0)
+                                                        <form
                                                             action="{{ route('pharmacy.order.status', ['id' => $data->order->id]) }}"
                                                             method="post">
                                                             @csrf
-                                                            <button type="submit" class="btn btn-danger show_confirm">
+                                                            <button type="submit" class="btn btn-warning  show_confirm">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24"
                                                                     height="24" viewBox="0 0 24 24" fill="none"
                                                                     stroke="currentColor" stroke-width="2"
@@ -122,20 +132,63 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </section>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Request Form</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="add_student" action="{{ route('pharmacy.request_form') }}" method="POST"
+                    enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="order_id" id="response_order_id">
+                    <div class="modal-body">
+                        <div class="form-group mb-2">
+                            <label for="stock">Description</label>
+                            <textarea class="form-control" id="description" name="description" rows="2">{{ $data->description }}</textarea>
+                            @error('description')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Send</button>
+                        </div>
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+
     <div id="response_append">
 
+
     </div>
+
 @endsection
 
 @section('js')
-    @if (\Illuminate\Support\Facades\Session::has('message'))
-        <script>
-            toastr.success('{{ \Illuminate\Support\Facades\Session::get('message') }}');
-        </script>
+<script>
+    @if (\Illuminate\Support\Facades\Session::has('success'))
+        toastr.success('{{ \Illuminate\Support\Facades\Session::get('success') }}');
     @endif
+
+    @if (\Illuminate\Support\Facades\Session::has('error'))
+        toastr.error('{{ \Illuminate\Support\Facades\Session::get('error') }}');
+    @endif
+</script>
     <script>
         $(document).ready(function() {
             $('#table_id_events').DataTable();
@@ -186,5 +239,20 @@
                 $(this).removeClass('disabled');
             }, 500);
         });
+    </script>
+    <script>
+        function sendDescription(id) {
+            $.ajax({
+                url: '{{ URL::to('/pharmacy/get-request-form') }}',
+                type: 'GET',
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    'id': id
+                },
+                success: function(response) {
+                    $('#response_order_id').val(response.data.order_id);
+                }
+            });
+        }
     </script>
 @endsection

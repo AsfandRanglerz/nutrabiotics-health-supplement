@@ -15,12 +15,13 @@ use App\Http\Controllers\Admin\ProductPhotoController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\TermConditionController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\Admin\WithdrawalRequestController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\ReportController;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Artisan;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,9 +41,12 @@ Route::get('/cache_clear', function () {
     return 'Application cache cleared!';
 });
 Route::get('/schedule', function () {
-    Artisan::call('schedule:work');
-    return 'Application schedule work!';
+    $exitCode = Artisan::call('schedule:work');
+    $output = Artisan::output();
+    return "<pre>$output</pre>";
 });
+
+
 /*
 Admin routes
  * */
@@ -68,7 +72,8 @@ Route::prefix('admin')->middleware('admin')->group(function () {
 
     Route::resource('user', UserController::class);
     Route::resource('pharmacy', PharmacyController::class);
-    Route::get('countryVise', [PharmacyController::class, 'getCountry'])->name('countryVise.create');
+    Route::resource('country', CountryController::class);
+
     // Route::post('get-states-by-country', [PharmacyController::class, 'getState']);
     // Route::post('get-cities-by-state', [PharmacyController::class, 'getCity']);
     Route::get('view-account-detail', [PharmacyController::class, 'accountDetail'])->name('accountDetail.index');
@@ -102,6 +107,14 @@ Route::prefix('admin')->middleware('admin')->group(function () {
 
     Route::get('order', [OrderController::class, 'index'])->name('order.index');
     Route::get('view-order-detail', [OrderController::class, 'orderDetail']);
+    Route::post('order-status/{id}', [OrderController::class, 'status'])->name('order.status');
+    Route::get('howOrder-page', [OrderController::class, 'OrderPageIndex'])->name('orderPage.index');
+    Route::get('howOrder-page-edit/{id}', [OrderController::class, 'OrderPageEdit'])->name('orderPage.edit');
+    Route::post('howOorder-page-update/{id}', [OrderController::class, 'OrderPageUpdate'])->name('orderPage.update');
+
+
+
+
     //report
     Route::get('report/index', [ReportController::class, 'index'])->name('report.index');
     Route::post('checkReport', [ReportController::class, 'checkReport'])->name('report.check');
@@ -138,7 +151,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Pharmacy'], function () {
         return redirect('login');
     });
     Route::view('login', 'pharmacy.auth.login')->name('View_login');
-    Route::view('register', 'pharmacy.auth.register')->name('register');
+    Route::get('registerIndex', 'AuthController@registerIndex')->name('registerIndex');
     Route::view('forget-password', 'pharmacy.auth.forgetPassword')->name('forgot_password');
     Route::get('change_password/{id}', 'AuthController@change_password');
     Route::post('register', 'AuthController@register')->name('pharmacy.register');
@@ -173,6 +186,9 @@ Route::group(['prefix' => 'pharmacy', 'namespace' => 'App\Http\Controllers\Pharm
     Route::get('order', 'OrderController@index')->name('order.index');
     Route::post('order/status/{id}', 'OrderController@status')->name('order.status');
     Route::get('view-order-detail', 'OrderController@orderDetail');
+    Route::get('get-request-form', 'OrderController@getRequestForm')->name('get_request_form');
+    Route::post('request-form', 'OrderController@requestForm')->name('request_form');
+
 
     Route::get('notification', 'NotificationController@getnotification')->name('notification');
     Route::get('url-notification', 'NotificationController@urlNotification')->name('urlNotification');

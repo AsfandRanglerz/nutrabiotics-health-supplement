@@ -1,6 +1,6 @@
 @php
     $notifications = \App\Models\Notification::where('type', 'admin')
-        ->orderBy('created_at', 'desc')
+        ->orderBy('created_at', 'DESC')
         ->get();
 @endphp
 

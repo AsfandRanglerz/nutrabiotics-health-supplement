@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class UserLoginPassword extends Mailable
+class PharmacyStatusNotification extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -16,10 +16,10 @@ class UserLoginPassword extends Mailable
      *
      * @return void
      */
-    protected $message;
-    public function __construct($message)
+    protected $status;
+    public function __construct($status)
     {
-        $this->message = $message;
+        $this->status = $status;
     }
 
     /**
@@ -29,6 +29,6 @@ class UserLoginPassword extends Mailable
      */
     public function build()
     {
-        return $this->subject('Registration Confirmation')->markdown('emails.User_login_password')->with('message',$this->message);
+        return $this->markdown('emails.pharmacyStatusNotification')->with('status',$this->status);
     }
 }

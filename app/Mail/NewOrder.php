@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class UserLoginPassword extends Mailable
+class NewOrder extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -29,6 +29,6 @@ class UserLoginPassword extends Mailable
      */
     public function build()
     {
-        return $this->subject('Registration Confirmation')->markdown('emails.User_login_password')->with('message',$this->message);
+        return $this->subject('New Order')->markdown('emails.newOrder')->with('message',$this->message);
     }
 }

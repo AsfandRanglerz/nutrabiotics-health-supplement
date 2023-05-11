@@ -14,7 +14,7 @@
                                 @csrf
                                 <div class="form-group">
                                     <label for="email">Email</label>
-                                    <input id="email" type="email" class="form-control" name="email" placeholder="Email" tabindex="1" required autofocus name="email">
+                                    <input id="email" type="email" class="form-control" value="{{ old('email') }}" name="email" placeholder="Email" tabindex="1" required autofocus name="email">
                                     @error('email')
                                     <span class="text-danger">Email required</span>
                                     @enderror
@@ -61,7 +61,7 @@
                                 </div>
                             </div> --}}
                             <div class="mt-5 text-muted text-center">
-                                Don't have an account? <a href="{{ route('register') }}">Create One</a>
+                                Don't have an account? <a href="{{ route('registerIndex') }}">Create One</a>
                             </div>
                         </div>
                     </div>

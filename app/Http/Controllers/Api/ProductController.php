@@ -61,7 +61,7 @@ class ProductController extends Controller
                 $query->where('product_id', $id);
             })
                 ->with(['pharmacyproduct' => function ($query) use ($id) {
-                    $query->where('product_id', $id);
+                    $query->where('product_id', $id)->where('stock', '>', 0);
                 }])
                 ->nearestTo($request->latitude, $request->longitude)
                 ->get();
@@ -75,7 +75,7 @@ class ProductController extends Controller
                         ;
                     })
                         ->with(['pharmacyproduct' => function ($query) use ($id) {
-                            $query->where('product_id', $id);
+                            $query->where('product_id', $id)->where('stock', '>', 0);
                         }])
                         ->nearestTo($lat, $lon)
                         ->get();
@@ -86,7 +86,7 @@ class ProductController extends Controller
                         ;
                     })
                         ->with(['pharmacyproduct' => function ($query) use ($id) {
-                            $query->where('product_id', $id);
+                            $query->where('product_id', $id)->where('stock', '>', 0);
                         }])
                         ->get();
                 }
@@ -97,7 +97,7 @@ class ProductController extends Controller
                     ;
                 })
                     ->with(['pharmacyproduct' => function ($query) use ($id) {
-                        $query->where('product_id', $id);
+                        $query->where('product_id', $id)->where('stock', '>', 0);
                     }])
                     ->get();
             }
@@ -143,6 +143,18 @@ class ProductController extends Controller
             ->limit(10)
             ->get();
         return $this->sendSuccess('Category data', compact('data', 'products', 'banner'));
+    }
+    // search product
+    function search($name)
+    {
+        $result = Product::where('product_name', 'LIKE', '%'. $name. '%')->get();
+        if(count($result)){
+         return Response()->json($result);
+        }
+        else
+        {
+        return response()->json(['Result' => 'No Data not found'], 404);
+      }
     }
 
 

@@ -1,3 +1,8 @@
+@php
+    use App\Models\Order;
+    $authId = Auth::guard('pharmacy')->user()->id; // Import the User model
+    $order = Order::where('pharmacy_id',$authId)->where('seen', '0')->get(); // Get all users from the database using the User model
+@endphp
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
@@ -14,18 +19,24 @@
                 <a href="" class="nav-link"><i
                         class='fas fa-clinic-medical'></i><span>Profile</span></a> --}}
             </li>
-            <li class="dropdown {{ request()->is('pharmacy/product*') ? 'active' : '' }}">
-                <a href="{{route('pharmacy.product.index')}}" class="nav-link"><i class="fa-brands fa-product-hunt"></i><span>Products</span></a>
-            </li>
+            <li class="nav-item {{ request()->is('pharmacy/product*') ? 'active' : '' }}">
+                <a href="{{route('pharmacy.product.index')}}" class="nav-link">
+                  <i class="fab fa-product-hunt"></i>
+                  <span>Products</span>
+                </a>
+              </li>
+
             <li class="dropdown {{ request()->is('pharmacy/withDrawal') ? 'active' : '' }}">
                 <a href="{{route('pharmacy.withDrawal.index')}}" class="nav-link"><i
                         class="fa fa-users"></i><span>Withdrawal</span></a>
             </li>
             <li class="dropdown {{ request()->is('pharmacy/order*') ? 'active' : '' }}">
-                <a href="{{route('pharmacy.order.index')}}" class="nav-link"><i class="fab fa-first-order"></i><span>Orders</span></a>
+                <a href="{{route('pharmacy.order.index')}}" class="nav-link"><i class="fab fa-first-order"></i><span>Orders</span>
+                    <span class="badge position-absolute w-auto rounded"
+                    style="right: 16px;background: rgb(247, 83, 18); color:#fff">{{ $order->count() }}</span></a>
             </li>
-            <li class="dropdown {{ request()->is('pharmacy/report*') ? 'active' : '' }}">
-                <a href="{{route('pharmacy.report.index')}}" class="nav-link"><i class="fab fa-first-order"></i><span>Report</span></a>
+            <li class="dropdown {{ request()->is('pharmacy/report*','pharmacy/checkReport*') ? 'active' : '' }}">
+                <a href="{{route('pharmacy.report.index')}}" class="nav-link"><i class="fas fa-chart-bar"></i><span>Report</span></a>
             </li>
             {{-- <li class="dropdown {{ request()->is('pharmacy/faq*') ? 'active' : '' }}">
                 <a href="{{ route('pharmacy.faq.index') }}" class="nav-link"><i

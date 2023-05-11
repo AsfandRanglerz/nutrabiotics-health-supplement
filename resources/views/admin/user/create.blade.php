@@ -39,21 +39,21 @@
                                     <div class="row mx-0 px-4">
                                         <div class="col-sm-6 pl-sm-0 pr-sm-3">
                                             <div class="form-group mb-2">
-                                                <label>Choose Image</label>
-                                                <input type="file" name="image" value="{{ old('image') }}"
-                                                    class="form-control">
-                                                @error('image')
+                                                <label>Phone</label>
+                                                <input type="tel" name="phone" id="phone"
+                                                    value="{{ old('phone') }}" class="form-control"
+                                                    placeholder="92 XXXXXXXXXX (Mobile Number)">
+                                                @error('phone')
                                                     <div class="text-danger">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
                                         <div class="col-sm-6 pl-sm-0 pr-sm-3">
                                             <div class="form-group mb-2">
-                                                <label>Phone</label>
-                                                <input type="tel" name="phone" id="phone"
-                                                    value="{{ old('phone') }}" class="form-control"
-                                                    placeholder="92 XXXXXXXXXX (Mobile Number)">
-                                                @error('phone')
+                                                <label>Choose Image</label>
+                                                <input type="file" name="image" value="{{ old('image') }}"
+                                                    class="form-control">
+                                                @error('image')
                                                     <div class="text-danger">{{ $message }}</div>
                                                 @enderror
                                             </div>

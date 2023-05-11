@@ -29,6 +29,6 @@ class CompanyRegister extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.company_register')->with('message',$this->message);
+        return $this->subject('Pharmacy Register')->markdown('emails.company_register')->with('message',$this->message);
     }
 }

@@ -28,6 +28,8 @@
                                             <th>total</th>
                                             <th>Order Date</th>
                                             <th>Status</th>
+                                            <th>Action</th>
+
 
                                         </tr>
                                     </thead>
@@ -44,17 +46,35 @@
                                                 <td>{{ $data->product->price ?? '' }}<br> </td>
                                                 <td>{{ $data->total ?? '' }}<br></td>
                                                 <td>{{ $data->created_at ? $data->created_at->format('d-m-Y') : '' }}</td>
+                                                <td>
+                                                    @if ($data->order->status == 1)
+                                                        <div class="badge badge-success badge-shadow">Approved</div>
+                                                    @elseif ($data->order->status == 0)
+                                                        @if (isset($data->order->description))
+                                                        <form method="post" action="{{ route('order.status', $data->order->id) }}">
+                                                            @csrf
+                                                            @method('POST')
+                                                            <div class="badge badge-warning show-confirm badge-shadow position-relative" data-name="order">
+                                                                <span class="position-relative">Pending<i class="fas fa-circle position-absolute" style="top: -8px; color: red;"></i></span>
+                                                            </div>
+                                                            <button type="submit" class="d-none"></button>
+                                                        </form>
+                                                    </form>
+
+                                                        @else
+                                                            <div class="badge badge-warning badge-shadow">Pending</div>
+                                                        @endif
+                                                    @elseif ($data->order->status == 2)
+                                                        <div class="badge badge-danger badge-shadow">Inactive</div>
+                                                    @endif
+                                                </td>
+
                                                 <td
                                                 style="display: flex;align-items: center;justify-content: center;column-gap: 8px">
                                                     <a onClick="viewDetail('{{ $data->order->id }}')"
                                                         class="btn modal-btn" style="color: var(--theme-color)!important;font-weight: bold">
                                                         <i class="fa fa-eye" style="font-size: 18px;"></i>
                                                     </a>
-                                                    @if ($data->order->status == 1)
-                                                        <div class="badge badge-success badge-shadow">Approved</div>
-                                                    @else
-                                                        <div class="badge badge-danger badge-shadow">Pending</div>
-                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -109,6 +129,33 @@
             setTimeout(() => {
                 $(this).removeClass('disabled');
             }, 500);
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+    <script type="text/javascript">
+        $('.show-confirm').click(function(event) {
+            event.preventDefault();
+            var form = $(this).closest("form");
+            var name = $(this).data("name");
+            swal({
+                title: `Are you sure you want to inactive this order?`,
+                text: "This action cannot be undone.",
+                icon: "warning",
+                buttons: ["Cancel", "Change"],
+                dangerMode: true,
+            }).then((willChange) => {
+                if (willChange) {
+                    // Add a hidden input field to the form to change the status
+                    $('<input>').attr({
+                        type: 'hidden',
+                        name: 'status',
+                        value: 'inactive'
+                    }).appendTo(form);
+
+                    // Submit the form
+                    form.submit();
+                }
+            });
         });
     </script>
 @endsection

@@ -25,6 +25,8 @@ Route::group(['namespace' => 'Api'], function () {
     Route::post('reset-password', 'AuthController@resetPassword');
     Route::get('deal-notification', 'AuthController@dealNotification');
     Route::get('all-notification', 'AuthController@allNotification');
+    Route::get('seen-notification/{id}', 'AuthController@seenNotification');
+
 
     // Category
     Route::get('category','ProductController@getCategory');
@@ -38,6 +40,8 @@ Route::group(['namespace' => 'Api'], function () {
 
 
     Route::post('location','ProductController@getlocation');
+    Route::get('search/{name}','ProductController@search');
+    
 
     Route::middleware('auth:sanctum')->group(function () {
         // return $request->user();
@@ -51,6 +55,9 @@ Route::group(['namespace' => 'Api'], function () {
 
 
 
+
+
+
         Route::get('single-product/{id}','ProductController@singleProduct');
 
         Route::get('pharmacy/{id}','ProductController@getPharmacy');
@@ -58,6 +65,7 @@ Route::group(['namespace' => 'Api'], function () {
         Route::post('post-order/{id}','OrderController@postOrder');
 
         Route::get('coupon','OrderController@getCoupon');
+        Route::post('order-approve','OrderController@OrderAccept');
 
 
 

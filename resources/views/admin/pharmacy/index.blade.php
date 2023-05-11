@@ -51,9 +51,9 @@
 
                                                 <td>
                                                     @if ($company->is_active == 1)
-                                                        <div class="badge badge-danger badge-shadow">Block</div>
+                                                        <div class="badge badge-danger badge-shadow">InActive</div>
                                                     @else
-                                                        <div class="badge badge-success badge-shadow">UnBlock</div>
+                                                        <div class="badge badge-success badge-shadow">Active</div>
                                                     @endif
                                                 </td>
                                                 <td>

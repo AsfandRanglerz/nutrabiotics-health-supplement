@@ -146,7 +146,7 @@
                                                         @enderror
                                                     </div>
 
-                                                    <div class="form-group col-md-6 col-12">
+                                                    {{-- <div class="form-group col-md-6 col-12">
                                                         <label>Country</label>
                                                         <select name="country" id="country-dropdown"
                                                             class="form-control">
@@ -160,7 +160,7 @@
                                                         @error('country')
                                                             <div class="text-danger">{{ $message }}</div>
                                                         @enderror
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
                                             </div>
                                             <div class="row mx-0 px-4">
@@ -182,23 +182,15 @@
                                                     </div>
                                                 </div> --}}
                                                 <div class="col-sm-6 pl-sm-0 pr-sm-2">
-                                                    <div class="form-group mb-3">
+                                                    {{-- <div class="form-group mb-3">
                                                         <label for="city">City</label>
                                                         <input type="text" name="city" value="{{ $data->city }}"
                                                             class="form-control">
-                                                        {{-- <select class="form-control" name="city" id="city-dropdown"
-                                                            value="{{ old('city') }}">
-                                                            <option value=""></option>
-                                                            @foreach ($data1['city'] as $city)
-                                                                <option value="{{ $city->name }}"
-                                                                    {{ $data->city == $city->name ? 'selected' : '' }}>
-                                                                    {{ $city->name }}</option>
-                                                            @endforeach
-                                                        </select> --}}
+
                                                         @error('city')
                                                             <div class="text-danger">{{ $message }}</div>
                                                         @enderror
-                                                    </div>
+                                                    </div> --}}
 
                                                 </div>
                                             </div>

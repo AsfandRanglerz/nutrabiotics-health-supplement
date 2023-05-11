@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Pharmacy;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,7 +22,9 @@ class ReportController extends Controller
 
     public function checkReport(Request $request)
 {
-    $orders = Order::where('status', '1')->get();
+
+
+    $orders = Order::where('pharmacy_id',$request->pharmacy_id)->where('status', '1')->get();
     $orderItems = OrderItem::whereIn('order_id', $orders->pluck('id'))->orderBy('id', 'DESC')->get();
     $total = 0;
     $total_Commission = 0;
@@ -30,9 +33,10 @@ class ReportController extends Controller
     foreach ($orderItems as $order) {
         $createdAt = $order->created_at;
         $datetime = Carbon::createFromFormat('Y-m-d H:i:s', $createdAt);
-        $monthYear = $datetime->format('m-Y');
-        $datepickerDate = $request->selected_date;
-        if ($monthYear == $datepickerDate) {
+        $monthYear = $datetime->format('Y-m-d');
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        if ($start_date <= $monthYear && $monthYear <= $end_date) {
             $total += $order->total;
             $total_Commission += $order->commission;
             $filteredOrders[] = $order->order;

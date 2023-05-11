@@ -1,3 +1,7 @@
+@php
+    $pharmacies = \App\Models\Pharmacy::select('id','name')->get();
+@endphp
+
 @extends('admin.layout.app')
 @section('title', 'index')
 @section('content')
@@ -20,10 +24,36 @@
                                     <div class="row mx-0 px-4">
                                         <div class="col-sm-4 pl-sm-0 pr-sm-3">
                                             <div class="form-group mb-2">
-                                                <label for="datepicker">Select a date:</label>
-                                                <input type="text" class="form-control" placeholder="Select Date" name="selected_date"
-                                                    id="datepicker" />
-                                                @error('selected_date')
+                                                <label for="datepicker">Select Pharmacy</label>
+                                                <select name="pharmacy_id" id="country-dropdown" class="form-control"
+                                                    value="{{ old('pharmacy_id') }}" required>
+                                                    <option value="" disabled selected>Select Pharmacy</option>
+
+                                                    @foreach ($pharmacies as $pharmacy)
+                                                        <option value="{{ $pharmacy->id }}">{{ $pharmacy->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('pharmacy_id')
+                                                    <div class="text-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4 pl-sm-0 pr-sm-3">
+                                            <div class="form-group mb-2">
+                                                <label for="datepicker">Start Date:</label>
+                                                <input type="date" class="form-control" name="start_date"
+                                                     required>
+                                                @error('start_date')
+                                                    <div class="text-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4 pl-sm-0 pr-sm-3">
+                                            <div class="form-group mb-2">
+                                                <label for="datepicker">End Date:</label>
+                                                <input type="date" class="form-control" name="end_date"
+                                                     required>
+                                                @error('end_date')
                                                     <div class="text-danger">{{ $message }}</div>
                                                 @enderror
                                             </div>

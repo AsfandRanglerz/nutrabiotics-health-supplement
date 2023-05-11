@@ -31,9 +31,11 @@ class AdminController extends Controller
         $product = Product::select('id')->get();
         $orderitem = OrderItem::select('id')->get();
         $orderPending = Order::where('status', '0')->select('id')->get();
+        $orderApproved = Order::where('status', '1')->select('id')->get();
+        $orderInactive = Order::where('status', '2')->select('id')->get();
         $withdrawal = WithDrawalRequest::where('status', '0')->get();
         $commission = Commission::select('percentage')->first();
-        return view('admin.index', compact('pharmacy', 'user', 'category', 'product', 'orderitem','orderPending', 'withdrawal', 'commission'));
+        return view('admin.index', compact('pharmacy', 'user', 'category', 'product', 'orderitem','orderPending','orderApproved','orderInactive','withdrawal', 'commission'));
     }
     public function getProfile()
     {
@@ -57,7 +59,7 @@ class AdminController extends Controller
             $data['image'] = 'public/admin/assets/images/users/' . $filename;
         }
         Admin::find(Auth::guard('admin')->id())->update($data);
-        return back()->with(['status' => true, 'message' => 'Updated Successfully']);
+        return back()->with('success', 'Profile Updated Successfully');
     }
     public function forgetPassword()
     {

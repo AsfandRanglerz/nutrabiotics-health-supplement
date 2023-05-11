@@ -39,9 +39,9 @@
                                                 <td>{{ $officer->phone }}</td>
                                                 <td>
                                                     @if ($officer->is_active == 1)
-                                                        <div class="badge badge-danger badge-shadow">Block</div>
+                                                        <div class="badge badge-danger badge-shadow">InActive</div>
                                                     @else
-                                                        <div class="badge badge-success badge-shadow">Unblock</div>
+                                                        <div class="badge badge-success badge-shadow">Active</div>
                                                     @endif
                                                 </td>
                                                 <td

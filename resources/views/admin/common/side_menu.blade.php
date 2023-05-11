@@ -1,6 +1,6 @@
 @php
-  use App\Models\Order; // Import the User model
-  $order = Order::where('seen','0')->get(); // Get all users from the database using the User model
+    use App\Models\Order; // Import the User model
+    $order = Order::where('seen', '0')->get(); // Get all users from the database using the User model
 @endphp
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
@@ -23,6 +23,19 @@
             <li class="dropdown {{ request()->is('admin/user*') ? 'active' : '' }}">
                 <a href="{{ route('user.index') }}" class="nav-link"><i class="fa fa-users"></i><span>Users</span></a>
             </li>
+            <li class="dropdown {{ request()->is('admin/country*', 'admin/country/edit*') ? 'active' : '' }}">
+                <a href="#" class="menu-toggle nav-link has-dropdown">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Locations</span>
+                </a>
+
+                <ul class="dropdown-menu active">
+                    <li class="dropdown {{ request()->is('home/index') ? 'active' : '' }}">
+                        <a href="{{ route('country.index') }}" class="nav-link"><i
+                                class=""></i></i><span>Country</span></a>
+                    </li>
+                </ul>
+            </li>
             <li class="dropdown {{ request()->is('admin/category*') ? 'active' : '' }}">
                 <a href="{{ route('category.index') }}" class="nav-link"><i
                         class="fa fa-list-alt"></i><span>Categories</span></a>
@@ -36,28 +49,45 @@
                     <span>Products</span></a>
             </li>
             <li class="dropdown {{ request()->is('admin/order*') ? 'active' : '' }}">
-                <a href="{{ route('order.index') }}" id="orderNotification" class="nav-link"><i class="fa-brands fa-first-order"></i>
-                    <span>Orders</span><span class="badge position-absolute w-auto rounded" style="right: 16px;background: rgb(247, 83, 18); color:#fff">{{$order->count()}}</span></a>
+                <a href="{{ route('order.index') }}" id="orderNotification" class="nav-link">
+                    <i class="fab fa-first-order"></i>
+                    <span>Orders</span>
+                    <span class="badge position-absolute w-auto rounded"
+                        style="right: 16px;background: rgb(247, 83, 18); color:#fff">{{ $order->count() }}</span>
+                </a>
             </li>
-            <li class="dropdown {{ request()->is('admin/report/index*') ? 'active' : '' }}">
-                <a href="{{ route('report.index') }}" class="nav-link"><i
-                        class="fa fa-percent"></i><span>Report</span></a>
+
+            <li class="nav-item {{ request()->is('admin/report*','admin/checkReport*') ? 'active' : '' }}">
+                <a href="{{ route('report.index') }}" class="nav-link">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Report</span>
+                </a>
             </li>
+
             <li class="dropdown {{ request()->is('admin/commission*') ? 'active' : '' }}">
                 <a href="{{ route('commission.index') }}" class="nav-link"><i
                         class="fa fa-percent"></i><span>Commission</span></a>
             </li>
-            <li class="dropdown {{ request()->is('admin/withDrawalRequest-index*') ? 'active' : '' }}">
-                <a href="{{ route('withDrawalRequest.index') }}" class="nav-link"><i
-                        class="fa-solid fa-money-check"></i><span>Withdrawal Request</span></a>
+            <li class="nav-item {{ request()->is('admin/withDrawalRequest*') ? 'active' : '' }}">
+                <a href="{{ route('withDrawalRequest.index') }}" class="nav-link">
+                    <i class="fas fa-money-check"></i>
+                    <span>Withdrawal Requests</span>
+                </a>
             </li>
-            <li class="dropdown {{ request()->is('admin/notification*') ? 'active' : '' }}">
-                <a href="{{ route('notification.create') }}" class="nav-link"><i
-                        class="fa-solid fa-money-check"></i><span>Notification</span></a>
+
+            <li class="nav-item {{ request()->is('admin/notification*') ? 'active' : '' }}">
+                <a href="{{ route('notification.create') }}" class="nav-link">
+                    <i class="fas fa-bell"></i>
+                    <span>Notification</span>
+                </a>
+            </li>
+            <li class="dropdown {{ request()->is('admin/howOrder-page*','howOrder-page-edit*') ? 'active' : '' }}">
+                <a href="{{ route('orderPage.index') }}" class="nav-link"><i class="fas fa-shopping-cart"></i>
+                    <span>How To Order</span></a>
             </li>
             <li class="dropdown {{ request()->is('admin/banner*') ? 'active' : '' }}">
                 <a href="{{ route('banner.index') }}" class="nav-link"><i class="fas fa-image"></i>
-                    <span>Banner</span></a>
+                    <span>Banners</span></a>
             </li>
             <li class="dropdown {{ request()->is('admin/faq*') ? 'active' : '' }}">
                 <a href="{{ route('faq.index') }}" class="nav-link"><i

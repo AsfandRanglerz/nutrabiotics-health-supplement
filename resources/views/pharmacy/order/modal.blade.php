@@ -23,8 +23,8 @@
                             <div class="col-md-6">
                                 <ul class="list-unstyled"">
                                     <li class="mb-1">Order ID: <strong class="text-muted"></strong></li>
-                                        <li class="small m-1 text-muted">
-                                            {{ $order->code }}
+                                    <li class="small m-1 text-muted">
+                                        {{ $order->code }}
                                 </ul>
                             </div>
                             <div class="col-md-6">
@@ -125,53 +125,84 @@
                                     </ul>
                                 </div>
                             </div>
-                            <hr class="m-0 p-0">
-                            <div class="row">
-                                <div class="offset-6 col-6 mt-2">
+                        @endforeach
+                        <hr class="m-0 p-0">
+                        <div class="row">
+                            <div class="col-6 mt-2">
+                                <ul class="list-unstyled">
+                                    <li class="text-muted">
+                                        <strong>Status:</strong>
+                                        <span style="margin-left: 5px;">
+                                            @if ($order->status == 0)
+                                                <span class="badge badge-warning">Pending</span>
+                                            @elseif ($order->status == 1)
+                                                <span class="badge badge-success">Approved</span>
+                                            @elseif ($order->status == 2)
+                                                <span class="badge badge-danger">Inactive</span>
+                                            @endif
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                            @foreach ($orderItems as $data)
+                                <div class=" col-6 mt-2">
                                     <ul class="list-unstyled">
                                         <li class=" text-muted"><strong>Sub Total:</strong> <span
                                                 style="margin-left: 5px;">{{ $data->sub_total ?? '' }}</span></li>
 
                                     </ul>
                                 </div>
+                            @endforeach
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 mt-2">
+                                @if (isset($order->description))
+                                    <ul class="list-unstyled">
+                                        <li class="text-muted"><strong>Description:</strong> <span
+                                                style="margin-left: 5px;">{{ $order->description }}</span></li>
+                                    </ul>
+                                @endif
                             </div>
-                            <div class="row">
-                                <div class="offset-6 col-6">
+
+                            @foreach ($orderItems as $data)
+                                <div class="col-6 mt-2">
                                     <ul class="list-unstyled">
                                         <li class=" text-muted"><strong>Discount:</strong> <span
                                                 style="margin-left: 5px;">{{ $data->d_per ?? '' }}%</span></li>
                                     </ul>
                                 </div>
+                        </div>
+                        <div class="row">
+                            <div class="offset-6 col-6">
+                                <ul class="list-unstyled">
+                                    <li class=" text-muted"><strong>Commission:</strong> <span
+                                            style="margin-left: 5px;">{{ $data->commission ?? '' }}</span></li>
+                                </ul>
                             </div>
-                            <div class="row">
-                                <div class="offset-6 col-6">
-                                    <ul class="list-unstyled">
-                                        <li class=" text-muted"><strong>Commission:</strong> <span
-                                                style="margin-left: 5px;">{{ $data->commission ?? '' }}</span></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="offset-6 col-6">
-                                    <ul class="list-unstyled">
-                                        <li class=" text-success"><strong>Total:</strong> <span
-                                                style="margin-left: 5px; color: black;">{{ $data->total ?? '' }}</span>
-                                        </li>
-                                    </ul>
+                        </div>
+                        <div class="row">
+                            <div class="offset-6 col-6">
+                                <ul class="list-unstyled">
+                                    <li class=" text-success"><strong>Total:</strong> <span
+                                            style="margin-left: 5px; color: black;">{{ $data->total ?? '' }}</span>
+                                    </li>
+                                </ul>
 
-                                </div>
-                        @endforeach
+                            </div>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
-            </div>
 
+            </div>
         </div>
     </div>
-</div>
 
 
 
-{{-- <div class="row">
+    {{-- <div class="row">
 
                 <div class="col-md-3 col-6 b-r">
                     <strong>Order Id</strong>

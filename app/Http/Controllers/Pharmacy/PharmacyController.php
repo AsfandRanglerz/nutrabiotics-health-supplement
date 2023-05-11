@@ -18,10 +18,11 @@ class PharmacyController extends Controller
     {
         $authId = Auth::guard('pharmacy')->id();
         $data['pharmacyproduct'] = PharmacyProduct::wherePharmacy_id($authId)->count();
+        $data['order'] = Order::wherePharmacy_id($authId)->count();
         $data['orderpending'] = Order::wherePharmacy_id($authId)->where('status', '0')->count();
         $data['orderapproved'] = Order::wherePharmacy_id($authId)->where('status', '1')->count();
+        $data['orderInactive'] = Order::wherePharmacy_id($authId)->where('status', '2')->count();
         $data['commission'] = Commission::select('percentage')->first();
-
         // $company = PharmacyProduct::with('product.category')->where('pharmacy_id',$authId);
         $data['pharmacy'] = Pharmacy::find($authId);
         //  $company = PharmacyProduct::find($authId);
@@ -32,9 +33,6 @@ class PharmacyController extends Controller
     {
         $auth = Auth::guard('pharmacy')->id();
         $data = Pharmacy::find($auth);
-        $path = public_path('countries.json');
-        $json = file_get_contents($path);
-        $data1['country'] = json_decode($json);
         // $data1['country'] = Country::get();
         // $path = public_path('states.json');
         // $json = file_get_contents($path);
@@ -45,7 +43,7 @@ class PharmacyController extends Controller
         // $Citydata = json_decode($json);
         // $data1['city'] = collect($Citydata)->where('state_name', $data->state)->all();
         $account = BankDetail::with('pharmacy')->where('pharmacy_id', $auth)->first();
-        return view('pharmacy.auth.profile', compact('data', 'account', 'data1'));
+        return view('pharmacy.auth.profile', compact('data', 'account'));
     }
 
     public function updateProfile(Request $request, $id)
@@ -68,13 +66,10 @@ class PharmacyController extends Controller
             'name' => $request->name,
             'phone' => $request->phone,
             'address' => $request->address,
-            'country' => $request->country,
-            // 'state' => $request->state,
-            'city' => $request->city,
             'image' => $image,
         ]);
 
-        return redirect()->route('pharmacy.profile')->with('success', 'Updated Successfully');
+        return redirect()->route('pharmacy.profile')->with('success', 'Profile Updated Successfully');
     }
 
     public function logout()

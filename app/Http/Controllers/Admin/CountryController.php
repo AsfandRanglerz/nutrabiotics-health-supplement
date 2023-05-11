@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Category;
+use App\Models\Country;
 
-class CategoryController extends Controller
+class CountryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $data = Category::latest()->get();
-        return view('admin.category.index', compact('data'));
+        $countries = Country::all();
+        return view('admin.country.index',compact('countries'));
     }
 
     /**
@@ -40,10 +40,10 @@ class CategoryController extends Controller
         $request->validate([
             'name' => 'required',
         ]);
-        $data = Category::create([
+        $data = Country::create([
             'name' => $request->name,
              ]);
-        return redirect()->route('category.index')->with(['status' => true, 'message' => 'Created Successfully']);
+        return redirect()->route('country.index')->with(['status' => true, 'message' => 'Created Successfully']);
 
     }
 
@@ -66,8 +66,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $data = Category::find($id);
-        return view('admin.category.edit', compact('data'));
+        $data = Country::find($id);
+        return view('admin.country.edit', compact('data'));
     }
 
     /**
@@ -83,10 +83,10 @@ class CategoryController extends Controller
             'name' => 'required',
         ]);
 
-        $data = Category::find($id);
+        $data = Country::find($id);
         $data->name = $request->input('name');
         $data->update();
-        return redirect()->route('category.index')->with(['status' => true, 'message' => 'Updated Successfully']);
+        return redirect()->route('country.index')->with(['status' => true, 'message' => 'Updated Successfully']);
     }
 
     /**
@@ -97,7 +97,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        Category::destroy($id);
+        country::destroy($id);
         return redirect()->back()->with(['status' => true, 'message' => 'Deleted Successfully']);
     }
 }

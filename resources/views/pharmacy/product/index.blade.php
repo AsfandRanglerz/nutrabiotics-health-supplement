@@ -13,8 +13,8 @@
                                 </div>
                             </div>
                             <div class="card-body table-striped table-bordered table-responsive">
-                                <a class="btn btn-success mb-3" href="{{ route('pharmacy.product.create') }}">Add
-                                    Product</a>
+                                {{-- <a class="btn btn-success mb-3" href="{{ route('pharmacy.product.create') }}">Add
+                                    Product</a> --}}
                                 <table class="table text-center" id="table_id_events">
                                     <thead>
                                         <tr>
@@ -64,15 +64,15 @@
                                                                 data-target="#exampleModal">Discount</button>
                                                         </div>
                                                     @endif
-                                                    <a class="btn btn-info"
-                                                        href="{{ route('pharmacy.product.edit', $product->pivot->id) }}">Edit</a>
-                                                    <form method="post"
+                                                    {{-- <a class="btn btn-info"
+                                                        href="{{ route('pharmacy.product.edit', $product->pivot->id) }}">Edit</a> --}}
+                                                    {{-- <form method="post"
                                                         action="{{ route('pharmacy.product.destroy', $product->pivot->id) }}">
                                                         @csrf
                                                         <input name="_method" type="hidden" value="DELETE">
                                                         <button type="submit" class="btn btn-danger btn-flat show_confirm"
                                                             data-toggle="tooltip">Delete</button>
-                                                    </form>
+                                                    </form> --}}
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -136,7 +136,6 @@
     <script>
         $(document).ready(function() {
             $('#table_id_events').DataTable()
-
         })
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>

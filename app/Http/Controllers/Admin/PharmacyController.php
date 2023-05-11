@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Mail\UserLoginPassword;
+use App\Mail\PharmacyStatusNotification;
 use App\Models\Admin;
 use App\Models\BankDetail;
 use App\Models\City;
@@ -28,7 +29,6 @@ class PharmacyController extends Controller
     public function index()
     {
         $data = Pharmacy::orderBy('id', 'DESC')->get();
-
         // $accounts = [];
         // foreach ($data as $pharmacy) {
         //     $account = BankDetail::where('pharmacy_id', $pharmacy->id)->get();
@@ -46,9 +46,8 @@ class PharmacyController extends Controller
      */
     public function create()
     {
-        $path = public_path('countries.json');
-       $json = file_get_contents($path);
-       $country = json_decode($json);
+
+       $country = Country::all();
         return view('admin.pharmacy.create', compact('country'));
     }
 
@@ -129,9 +128,7 @@ class PharmacyController extends Controller
     public function edit($id)
     {
         $data = Pharmacy::find($id);
-        $path = public_path('countries.json');
-        $json = file_get_contents($path);
-        $data1['country'] = json_decode($json);
+        $data1['country'] = Country::all();
         // $data1['country'] = Country::get();
         // $path = public_path('states.json');
         // $json = file_get_contents($path);
@@ -204,6 +201,10 @@ class PharmacyController extends Controller
     {
         $data = Pharmacy::find($id);
         $data->update(['is_active' => $data->is_active == 0 ? '1' : '0']);
+        // dd($data);
+        $status['is_active'] = $data->is_active == 1 ? 'deactivated' : 'activated';
+        $status['name'] = $data->name;
+        Mail::to($data->email)->send(new PharmacyStatusNotification($status));
         return redirect()->back()->with(['status' => true, 'message' => 'Updated Successfully']);
     }
 

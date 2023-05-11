@@ -2,9 +2,11 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
+use Log;
 use App\Models\Product;
 use Illuminate\Support\Carbon;
+// use App\Jobs\ExpireQuote;
+use Illuminate\Console\Command;
 
 
 class CheckDates extends Command
@@ -39,19 +41,24 @@ class CheckDates extends Command
      * @return int
      */
     public function handle()
-{
-    $products = Product::all();
+    {
 
-    foreach ($products as $product) {
-        $start_date = Carbon::parse($product->start_date);
-        $expiry_date = Carbon::parse($product->expiry_date);
+        $products = Product::all();
+        // \Log::info("Cron is working fine!3456fghj");
+        foreach ($products as $product) {
+            $start_date = Carbon::today();
+            $expiry_date = Carbon::parse($product->expiry_date);
 
-        if ($start_date->greaterThan($expiry_date)) {
-            $product->start_date = null;
-            $product->expiry_date = null;
-            $product->save();
+            if ($start_date->greaterThan($expiry_date)) {
+                $product->start_date = null;
+                $product->expiry_date = null;
+                $product->d_per = 0;
+
+                $product->save();
+            }
         }
     }
-}
+
+
 
 }

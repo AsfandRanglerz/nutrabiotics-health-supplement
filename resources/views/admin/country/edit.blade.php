@@ -6,22 +6,21 @@
         <div class="main-content">
             <section class="section">
                 <div class="section-body">
-                    {{-- <a class="btn btn-primary mb-3" href="{{ url()->previous() }}">Back</a> --}}
-                    <form id="add_student" action="{{ route('commission.update',$data->id) }}" method="POST" enctype="multipart/form-data">
+                    {{-- <a class="btn btn-primary mb-3" href="{{route('category.index')}}">Back</a> --}}
+                    <form id="add_student" action="{{ route('country.update', $data['id']) }}" method="POST" enctype="multipart/form-data">
                         @csrf
-
+                        @method('PATCH')
                         <div class="row">
                             <div class="col-12 col-md-12 col-lg-12">
                                 <div class="card">
-                                    <h4 class="text-center my-4">Edit Commission</h4>
-
+                                    <h4 class="text-center my-4">Edit Country</h4>
                                     <div class="row mx-0 px-4">
                                         <div class="col-sm-6 pl-sm-0 pr-sm-3">
                                             <div class="form-group mb-2">
-                                                <label>Percentage(This Commission will be for each Pharmacy)</label>
-                                                <input type="number" name="percentage" id="percentage"
-                                                    value="{{ $data->percentage }}" class="form-control" placeholder="Price">
-                                                @error('percentage')
+                                                <label>Country</label>
+                                                <input type="text" name="name" id="name"
+                                                    Value="{{ $data['name'] }}"class="form-control">
+                                                @error('name')
                                                     <div class="text-danger">{{ $message }}</div>
                                                 @enderror
                                             </div>
@@ -36,17 +35,9 @@
                                 </div>
                             </div>
                         </div>
-                    </form>
+                        </form>
                 </div>
             </section>
         </div>
     </body>
-@endsection
-
-@section('js')
-    @if (\Illuminate\Support\Facades\Session::has('message'))
-        <script>
-            toastr.success('{{ \Illuminate\Support\Facades\Session::get('message') }}');
-        </script>
-    @endif
 @endsection
