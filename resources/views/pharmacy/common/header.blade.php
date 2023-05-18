@@ -1,6 +1,6 @@
 @php
     $AuthId = Auth::guard('pharmacy')->id();
-    $notifications = \App\Models\Notification::where('type', 'pharmacy')
+    $notifications = \App\Models\Notification::where('type', 'pharmacy')->where('pharmacy_id',$AuthId)
     // ->where('seen', '0')
     ->orderBy('created_at', 'DESC')
     ->get();

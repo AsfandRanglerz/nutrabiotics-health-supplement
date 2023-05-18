@@ -108,7 +108,6 @@ class OrderController extends Controller
         $authId = Auth::id();
         $order = Order::where('user_id', $authId)->where('id', $request->order_id)->first();
         $order->update(['status' => $order->status == 0 ? '1' : '0']);
-
         if ($order->status == 1) {
             $totalCommission = $order->orderItems->sum('commission');
             $pharmacy = $order->pharmacy;

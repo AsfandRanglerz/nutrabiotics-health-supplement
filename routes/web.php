@@ -46,6 +46,7 @@ Route::get('/schedule', function () {
     return "<pre>$output</pre>";
 });
 
+Route::get('howorder-show', [OrderController::class, 'OrderPageShow'])->name('howOrder.show');
 
 /*
 Admin routes

@@ -12,7 +12,7 @@ class User extends Authenticatable
 {
     use HasApiTokens,HasFactory,Notifiable;
 
-    protected $fillable = ['name','phone', 'first_name', 'maiden_name', 'last_name', 'email', 'image', 'password', 'designation', 'is_active','fcm_token'];
+    protected $fillable = ['name','phone', 'first_name', 'maiden_name', 'last_name', 'email', 'image', 'password', 'designation', 'is_active','fcm_token','country_id'];
 
     public function usercompany()
     {
@@ -31,6 +31,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class,'user_id');
     }
+    public function country()
+{
+    return $this->belongsTo(Country::class, 'country_id', 'id');
+}
+
     public function getImageAttribute($path)
     {
         if ($path){

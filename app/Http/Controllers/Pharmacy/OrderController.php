@@ -145,8 +145,7 @@ class OrderController extends Controller
         $notification->save();
 
         //mail
-        $admin = Admin::find(Auth::guard('admin')->id());
-
+        $admin = Auth::guard('admin')->user();
 
         /** assign the role  */
         $message['admin'] = $admin->name;

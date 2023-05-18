@@ -17,4 +17,9 @@ class Country extends Model
         return $this->hasMany(Pharmacy::class, 'country');
     }
 
+    public function user()
+{
+    return $this->hasOne(User::class,'country_id');
+}
+
 }

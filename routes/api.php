@@ -26,6 +26,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::get('deal-notification', 'AuthController@dealNotification');
     Route::get('all-notification', 'AuthController@allNotification');
     Route::get('seen-notification/{id}', 'AuthController@seenNotification');
+    Route::get('country', 'AuthController@getcountry');
 
 
     // Category
@@ -41,7 +42,7 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::post('location','ProductController@getlocation');
     Route::get('search/{name}','ProductController@search');
-    
+
 
     Route::middleware('auth:sanctum')->group(function () {
         // return $request->user();

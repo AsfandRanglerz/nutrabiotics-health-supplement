@@ -155,7 +155,7 @@
                     <div class="modal-body">
                         <div class="form-group mb-2">
                             <label for="stock">Description</label>
-                            <textarea class="form-control" id="description" name="description" rows="2">{{ $data->description }}</textarea>
+                            <textarea class="form-control" id="description" name="description" rows="2"></textarea>
                             @error('description')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror

@@ -35,10 +35,8 @@ class OrderController extends Controller
         $orders = Order::find($id);
         $orders->status = '2';
         $orderItem = OrderItem::where('order_id',$id)->first();
-        $pharmacy = Pharmacy::where('id',$orders->pharmacy_id)->first();
-        $pharmacy->balance = $pharmacy->balance - $orderItem->commission;
+        // $pharmacy = Pharmacy::where('id',$orders->pharmacy_id)->first();
         $orders->save();
-        $pharmacy->save();
         $notification = new Notification();
         $notification->user_id = $orders->user_id;
         $notification->pharmacy_id = $orders->pharmacy_id;
@@ -65,6 +63,11 @@ class OrderController extends Controller
         ]);
 
         return redirect()->route('orderPage.index')->with(['status' => true, 'message' => 'Update Successfully']);
+    }
+
+    public function OrderPageShow(){
+        $data = HowOrder::first();
+        return view('admin.order.orderPage.showLink', compact('data'));
     }
 
 

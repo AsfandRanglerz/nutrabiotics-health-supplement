@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Mail\ResetPasswordUser;
 use App\Models\User;
+use App\Models\Country;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -28,7 +29,7 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return $this->sendError($validator->errors()->first(), 404);
         }
-        $data = $request->only(['name', 'email', 'phone', 'password']);
+        $data = $request->only(['name', 'email', 'phone', 'password','country_id']);
         $data['image'] = 'public/admin/assets/images/users/1677742785.jpg';
         $data['password'] = Hash::make($request->password);
         $user = User::create($data);
@@ -211,6 +212,12 @@ class AuthController extends Controller
         $notification->seen = '1';
         $notification->save();
         return $this->sendSuccess('Seen  Notification');
+
+    }
+
+    public function getcountry(){
+           $data = Country::all();
+           return $this->sendSuccess('Countries', $data);
 
     }
 }
