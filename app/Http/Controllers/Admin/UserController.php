@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Admin;
+use App\Models\Country;
 use App\Mail\UserLoginPassword;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -22,7 +23,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $data = User::orderBy('id', 'DESC')->get();
+        $data = User::with('country')->orderBy('id', 'DESC')->get();
         return view('admin.user.index', compact('data'));
     }
 
@@ -33,7 +34,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.user.create');
+        $country = Country::all();
+        return view('admin.user.create',compact('country'));
     }
 
     /**
@@ -69,6 +71,7 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
+            'country_id' => $request->country_id,
             'password' => Hash::make($password),
         ] + ['image' => $image]);
         $company = Admin::find(Auth::guard('admin')->id());
@@ -110,7 +113,8 @@ class UserController extends Controller
     public function edit($id)
     {
         $data = User::find($id);
-        return view('admin.user.edit', compact('data'));
+        $countries = Country::all();
+        return view('admin.user.edit', compact('data','countries'));
     }
 
     /**
@@ -147,6 +151,7 @@ class UserController extends Controller
         $data->update([
             'name' => $request->name,
             'phone' => $request->phone,
+            'country_id' => $request->country_id,
             'image' => $image,
         ]);
 

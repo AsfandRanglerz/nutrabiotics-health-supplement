@@ -22,6 +22,7 @@
                                             <th>Email</th>
                                             <th>Image</th>
                                             <th>Phone</th>
+                                            <th>Country</th>
                                             <th>Status</th>
                                             <th scope="col">Actions</th>
                                         </tr>
@@ -37,6 +38,8 @@
                                                         width="50" class="image">
                                                 </td>
                                                 <td>{{ $officer->phone }}</td>
+                                                <td>{{ $officer->country->name }}</td>
+
                                                 <td>
                                                     @if ($officer->is_active == 1)
                                                         <div class="badge badge-danger badge-shadow">InActive</div>

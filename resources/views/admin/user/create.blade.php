@@ -50,6 +50,23 @@
                                         </div>
                                         <div class="col-sm-6 pl-sm-0 pr-sm-3">
                                             <div class="form-group mb-2">
+                                                <label>Country</label>
+                                                <select name="country_id" id="country-dropdown" class="form-control"
+                                                    value="{{ old('country') }}">
+                                                    <option value="" disabled selected>Select Country</option>
+                                                    @foreach ($country as $data)
+                                                        <option value="{{ $data->id }}">{{ $data->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('country')
+                                                    <div class="text-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mx-0 px-4">
+                                        <div class="col-sm-6 pl-sm-0 pr-sm-3">
+                                            <div class="form-group mb-2">
                                                 <label>Choose Image</label>
                                                 <input type="file" name="image" value="{{ old('image') }}"
                                                     class="form-control">

@@ -50,6 +50,24 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-6 pl-sm-0 pr-sm-3">
+                                            <div class="form-group mb-2">
+                                                <label>Country</label>
+                                                <select name="country_id" id="country-dropdown" class="form-control">
+                                                    <option value="" disabled selected>Select Country</option>
+                                                    @foreach ($countries as $country)
+                                                        <option value="{{ $country->id }}"
+                                                            {{ $data->country_id == $country->id ? 'selected' : '' }}>
+                                                            {{ $country->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('country')
+                                                    <div class="text-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mx-0 px-4">
+                                        <div class="col-sm-6 pl-sm-0 pr-sm-3">
 
                                             <div class="form-group mb-2">
                                                 <label>Choose Image</label>
